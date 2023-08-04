@@ -1,35 +1,63 @@
 import styled from 'styled-components';
-import { Note } from '../types/types';
-import { TableHeader, HeaderItem, Table } from './TableComponent.styled';
-import { RowComponent } from './Row/Row';
 import { calculateCategoryCounts } from '../helpers/calculateCategoryCounts';
+import { useAppSelector } from '../hooks/hooks';
+import {
+  selectActiveNotes,
+  selectAllNotes,
+  selectArchivedNotes,
+} from '../redux/features/notes/selectors';
+import { RowComponent } from './Row/Row';
+import { HeaderItem, Table, TableHeader } from './TableComponent.styled';
+import { HeaderToggle } from './HeaderToggle/HeaderToggle';
+import { useState, useEffect } from 'react';
 
 const List = styled.ul``;
 
 interface TableProps {
   headers: string[];
-  data: Note[];
-
   isSummary?: boolean;
 }
 
 export const TableComponent: React.FC<TableProps> = ({
   headers,
-  data,
   isSummary,
 }) => {
-  const categoriesData = calculateCategoryCounts(data);
+  const [showArchived, setShowArchived] = useState(false);
+  const notes = useAppSelector(selectAllNotes);
+  const categoriesData = calculateCategoryCounts(notes);
+
+  const activeNotes = useAppSelector(selectActiveNotes);
+  const archivedNotes = useAppSelector(selectArchivedNotes);
+
+  const toggleArchive = () => {
+    setShowArchived(!showArchived);
+  };
+
+  useEffect(() => {
+    if (showArchived && archivedNotes.length === 0) {
+      setShowArchived(false);
+    }
+  }, [archivedNotes, showArchived]);
 
   return (
     <Table>
       <TableHeader>
-        {headers.map((header) => (
-          <HeaderItem key={header}>{header}</HeaderItem>
-        ))}
+        {headers.map((header, index) =>
+          header !== '' ? (
+            <HeaderItem key={header}>{header}</HeaderItem>
+          ) : (
+            <HeaderToggle
+              toggleArchive={toggleArchive}
+              isArchived={!!archivedNotes.length}
+              showArchived={showArchived}
+              key={index}
+            />
+          )
+        )}
       </TableHeader>
       <List>
         {!isSummary &&
-          data.map((note) => (
+          (showArchived ? archivedNotes : activeNotes).map((note) => (
             <RowComponent data={note} key={note.id} isSummary={false} />
           ))}
         {isSummary &&
@@ -41,7 +69,6 @@ export const TableComponent: React.FC<TableProps> = ({
             />
           ))}
       </List>
-      {/* any*/}
     </Table>
   );
 };

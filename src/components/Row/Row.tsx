@@ -11,6 +11,11 @@ import {
 import { getIconForCategory } from '../../helpers/getIconForCategory';
 import { ActionButton } from '../Buttons/ActionButtons';
 import { FaArchive, FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { useAppDispatch } from '../../hooks/hooks';
+import {
+  removeNote,
+  toggleArchiveNote,
+} from '../../redux/features/notes/notesSlice';
 
 interface CategoryCounts {
   category: string;
@@ -24,6 +29,20 @@ interface RowProps {
 }
 
 export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
+  const dispatch = useAppDispatch();
+
+  const handleRemoveClick = () => {
+    if ('id' in data) {
+      dispatch(removeNote(data.id));
+    }
+  };
+
+  const handleArchiveClick = () => {
+    if ('id' in data) {
+      dispatch(toggleArchiveNote(data.id));
+    }
+  };
+
   if (isSummary) {
     const { category, active, archived } = data as CategoryCounts;
     return (
@@ -55,8 +74,14 @@ export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
         <Cell>
           <NoteActionsWrapper>
             <ActionButton icon={<FaPencilAlt size={30} />} onClick={() => {}} />
-            <ActionButton icon={<FaArchive size={30} />} onClick={() => {}} />
-            <ActionButton icon={<FaTrash size={30} />} onClick={() => {}} />
+            <ActionButton
+              icon={<FaArchive size={30} />}
+              onClick={handleArchiveClick}
+            />
+            <ActionButton
+              icon={<FaTrash size={30} />}
+              onClick={handleRemoveClick}
+            />
           </NoteActionsWrapper>
         </Cell>
       </Row>
