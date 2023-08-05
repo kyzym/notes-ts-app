@@ -11,6 +11,7 @@ import { HeaderItem, Table, TableHeader } from './TableComponent.styled';
 import { HeaderToggle } from './HeaderToggle/HeaderToggle';
 import { useState, useEffect } from 'react';
 import { NoteButton } from './Buttons/NoteButton/NoteButton';
+import { NoteModal } from './Modal/Modal';
 
 const List = styled.ul``;
 
@@ -24,6 +25,8 @@ export const TableComponent: React.FC<TableProps> = ({
   isSummary,
 }) => {
   const [showArchived, setShowArchived] = useState(false);
+  const [isModalHidden, setModalHidden] = useState(true);
+
   const notes = useAppSelector(selectAllNotes);
   const categoriesData = calculateCategoryCounts(notes);
 
@@ -40,42 +43,69 @@ export const TableComponent: React.FC<TableProps> = ({
     }
   }, [archivedNotes, showArchived]);
 
-  return (
-    <Table>
-      <TableHeader $isSummary={isSummary}>
-        {headers.map((header, index) =>
-          header !== '' ? (
-            <HeaderItem key={header}>{header}</HeaderItem>
-          ) : (
-            <HeaderToggle
-              toggleArchive={toggleArchive}
-              isArchived={!!archivedNotes.length}
-              showArchived={showArchived}
-              key={index}
-            />
-          )
-        )}
-      </TableHeader>
-      <List>
-        {!isSummary &&
-          (showArchived ? archivedNotes : activeNotes).map((note) => (
-            <RowComponent data={note} key={note.id} isSummary={false} />
-          ))}
+  const openModal = () => {
+    setModalHidden(false);
+  };
 
-        {isSummary &&
-          Object.entries(categoriesData).map(([category, counts]) => (
-            <RowComponent
-              data={{ category, ...counts }}
-              key={category}
-              isSummary={isSummary}
-            />
-          ))}
-      </List>
-      {!isSummary && !showArchived && (
-        <NoteButton type="button" onClick={() => {}}>
-          Create Note
-        </NoteButton>
-      )}
-    </Table>
+  const closeModal = () => {
+    setModalHidden(true);
+  };
+
+  useEffect(() => {
+    const handleEscapePress = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (!isModalHidden) {
+      window.addEventListener('keydown', handleEscapePress);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleEscapePress);
+    };
+  }, [isModalHidden]);
+
+  return (
+    <>
+      <Table>
+        <TableHeader $isSummary={isSummary}>
+          {headers.map((header, index) =>
+            header !== '' ? (
+              <HeaderItem key={header}>{header}</HeaderItem>
+            ) : (
+              <HeaderToggle
+                toggleArchive={toggleArchive}
+                isArchived={!!archivedNotes.length}
+                showArchived={showArchived}
+                key={index}
+              />
+            )
+          )}
+        </TableHeader>
+        <List>
+          {!isSummary &&
+            (showArchived ? archivedNotes : activeNotes).map((note) => (
+              <RowComponent data={note} key={note.id} isSummary={false} />
+            ))}
+
+          {isSummary &&
+            Object.entries(categoriesData).map(([category, counts]) => (
+              <RowComponent
+                data={{ category, ...counts }}
+                key={category}
+                isSummary={isSummary}
+              />
+            ))}
+        </List>
+        {!isSummary && !showArchived && (
+          <NoteButton type="button" onClick={openModal}>
+            Create Note
+          </NoteButton>
+        )}
+      </Table>
+      <NoteModal isHidden={isModalHidden} close={closeModal} />
+    </>
   );
 };
