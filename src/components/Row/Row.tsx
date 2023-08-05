@@ -26,9 +26,14 @@ interface CategoryCounts {
 interface RowProps {
   data: Note | CategoryCounts;
   isSummary: boolean;
+  onEditClick?: () => void;
 }
 
-export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
+export const RowComponent: React.FC<RowProps> = ({
+  data,
+  isSummary,
+  onEditClick,
+}) => {
   const dispatch = useAppDispatch();
 
   const handleRemoveClick = () => {
@@ -40,6 +45,12 @@ export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
   const handleArchiveClick = () => {
     if ('id' in data) {
       dispatch(toggleArchiveNote(data.id));
+    }
+  };
+
+  const handleEditClick = () => {
+    if (onEditClick) {
+      onEditClick();
     }
   };
 
@@ -73,7 +84,10 @@ export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
         <Cell className="dates">{note.dates.join(', ')}</Cell>
         <Cell className="actions-wrapper">
           <NoteActionsWrapper>
-            <ActionButton icon={<FaPencilAlt size={30} />} onClick={() => {}} />
+            <ActionButton
+              icon={<FaPencilAlt size={30} />}
+              onClick={handleEditClick}
+            />
             <ActionButton
               icon={<FaArchive size={30} />}
               onClick={handleArchiveClick}

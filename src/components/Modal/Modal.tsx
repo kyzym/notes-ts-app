@@ -7,14 +7,19 @@ import { extractContent } from '../../helpers/extractContent';
 import { v4 as uuidv4 } from 'uuid';
 import { dateFormat } from '../../helpers/dateFormat';
 import { useAppDispatch } from '../../hooks/hooks';
-import { addNote } from '../../redux/features/notes/notesSlice';
+import { addNote, editNote } from '../../redux/features/notes/notesSlice';
 
 interface ModalProps {
   isHidden: boolean;
   close: () => void;
+  noteToEdit?: Note;
 }
 
-export const NoteModal: React.FC<ModalProps> = ({ isHidden, close }) => {
+export const NoteModal: React.FC<ModalProps> = ({
+  isHidden,
+  close,
+  noteToEdit,
+}) => {
   const dispatch = useAppDispatch();
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,6 +44,14 @@ export const NoteModal: React.FC<ModalProps> = ({ isHidden, close }) => {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
 
+  useEffect(() => {
+    if (noteToEdit) {
+      setName(noteToEdit.name.trim());
+      setContent(noteToEdit.content + ' ' + noteToEdit.dates.join(' '));
+      setCategory(noteToEdit.category);
+    }
+  }, [noteToEdit]);
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setName(e.target.value);
 
@@ -52,19 +65,32 @@ export const NoteModal: React.FC<ModalProps> = ({ isHidden, close }) => {
     e.preventDefault();
 
     const dates = extractDates(content);
-    const contentData = extractContent(content);
+    const contentData = extractContent(content).trim();
 
-    const noteData: Note = {
-      name,
-      content: contentData,
-      category,
-      dates,
-      id: uuidv4(),
-      isArchived: false,
-      createdAt: dateFormat(new Date()),
-    };
+    if (noteToEdit) {
+      const editingNoteData: Note = {
+        ...noteToEdit,
+        name,
+        content: contentData,
+        category,
+        dates,
+        createdAt: dateFormat(new Date()),
+      };
 
-    dispatch(addNote(noteData));
+      dispatch(editNote(editingNoteData));
+    } else {
+      const noteData: Note = {
+        name,
+        content: contentData,
+        category,
+        dates,
+        id: uuidv4(),
+        isArchived: false,
+        createdAt: dateFormat(new Date()),
+      };
+
+      dispatch(addNote(noteData));
+    }
 
     setName('');
     setContent('');

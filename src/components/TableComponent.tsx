@@ -11,6 +11,7 @@ import { HeaderToggle } from './HeaderToggle/HeaderToggle';
 import { NoteModal } from './Modal/Modal';
 import { RowComponent } from './Row/Row';
 import { HeaderItem, List, Table, TableHeader } from './TableComponent.styled';
+import { Note } from '../types/types';
 
 interface TableProps {
   headers: string[];
@@ -23,6 +24,7 @@ export const TableComponent: React.FC<TableProps> = ({
 }) => {
   const [showArchived, setShowArchived] = useState(false);
   const [isModalHidden, setModalHidden] = useState(true);
+  const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
   const notes = useAppSelector(selectAllNotes);
   const categoriesData = calculateCategoryCounts(notes);
@@ -44,7 +46,13 @@ export const TableComponent: React.FC<TableProps> = ({
     setModalHidden(false);
   };
 
+  const openEditModal = (note: Note) => {
+    setCurrentNote(note);
+    setModalHidden(false);
+  };
+
   const closeModal = () => {
+    setCurrentNote(null);
     setModalHidden(true);
   };
 
@@ -84,7 +92,12 @@ export const TableComponent: React.FC<TableProps> = ({
         <List>
           {!isSummary &&
             (showArchived ? archivedNotes : activeNotes).map((note) => (
-              <RowComponent data={note} key={note.id} isSummary={false} />
+              <RowComponent
+                data={note}
+                key={note.id}
+                isSummary={false}
+                onEditClick={() => openEditModal(note)}
+              />
             ))}
 
           {isSummary &&
@@ -102,7 +115,11 @@ export const TableComponent: React.FC<TableProps> = ({
           </NoteButton>
         )}
       </Table>
-      <NoteModal isHidden={isModalHidden} close={closeModal} />
+      <NoteModal
+        isHidden={isModalHidden}
+        close={closeModal}
+        noteToEdit={(currentNote as Note) && (currentNote as Note)}
+      />
     </>
   );
 };
