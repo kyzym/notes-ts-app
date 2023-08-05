@@ -1,15 +1,11 @@
 import { Provider } from 'react-redux';
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom';
 import './App.css';
 import { TableComponent } from './components/TableComponent/TableComponent';
 import store from './redux/store';
 import { MAIN_HEADERS, SUMMARY_HEADERS } from './utils/constants';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/notes',
     element: (
