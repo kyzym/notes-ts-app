@@ -41,7 +41,7 @@ export const TableComponent: React.FC<TableProps> = ({
 
   return (
     <Table>
-      <TableHeader>
+      <TableHeader $isSummary={isSummary}>
         {headers.map((header, index) =>
           header !== '' ? (
             <HeaderItem key={header}>{header}</HeaderItem>

@@ -1,6 +1,11 @@
 import { getIconForCategory } from '../../helpers/getIconForCategory';
 import { HeaderItem } from '../TableComponent.styled';
-import { ArchiveToggle, ArchiveToggleText } from './HeaderToggle.styled';
+import {
+  ArchiveToggle,
+  ArchiveToggleText,
+  IconWrapper,
+  ToggleWrapper,
+} from './HeaderToggle.styled';
 
 interface HeaderToggleProps {
   isArchived: boolean;
@@ -15,16 +20,20 @@ export const HeaderToggle: React.FC<HeaderToggleProps> = ({
 }) => {
   return (
     <HeaderItem>
-      <ArchiveToggle onClick={toggleArchive}>
-        {isArchived && (
-          <ArchiveToggleText>
-            {showArchived ? 'Show active' : 'Show archived'}
-          </ArchiveToggleText>
-        )}
-        {getIconForCategory('Archive', 30, 'white')}
-      </ArchiveToggle>
+      <ToggleWrapper>
+        <ArchiveToggle onClick={toggleArchive} $showArchived={showArchived}>
+          {isArchived && (
+            <ArchiveToggleText>
+              {showArchived ? 'Show active' : 'Show archived'}
+            </ArchiveToggleText>
+          )}
 
-      {getIconForCategory('Trash', 30, 'white')}
+          <IconWrapper className="icon-wrapper">
+            {getIconForCategory('Archive', 30, '')}
+          </IconWrapper>
+        </ArchiveToggle>
+        <IconWrapper>{getIconForCategory('Trash', 30, 'white')}</IconWrapper>
+      </ToggleWrapper>
     </HeaderItem>
   );
 };
