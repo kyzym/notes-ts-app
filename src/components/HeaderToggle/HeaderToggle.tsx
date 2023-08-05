@@ -1,5 +1,5 @@
 import { getIconForCategory } from '../../helpers/getIconForCategory';
-import { HeaderItem } from '../TableComponent.styled';
+import { HeaderItem } from '../TableComponent/TableComponent.styled';
 import {
   ArchiveToggle,
   ArchiveToggleText,

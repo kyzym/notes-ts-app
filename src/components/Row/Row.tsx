@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Note } from '../../types/types';
+import { CategoryCounts, Note } from '../../types/types';
 import {
   ArchiveButtonWrapper,
   Cell,
@@ -17,12 +17,6 @@ import {
   removeNote,
   toggleArchiveNote,
 } from '../../redux/features/notes/notesSlice';
-
-interface CategoryCounts {
-  category: string;
-  active: number;
-  archived: number;
-}
 
 interface RowProps {
   data: Note | CategoryCounts;
@@ -63,7 +57,7 @@ export const RowComponent: React.FC<RowProps> = ({
           <NameIconWrapper>
             {getIconForCategory(category, 25, 'white')}
           </NameIconWrapper>
-          <Cell>{<Cell>{category}</Cell>}</Cell>
+          <Cell>{category}</Cell>
         </NameWrapper>
         <Cell>{active}</Cell>
         <Cell>{archived}</Cell>

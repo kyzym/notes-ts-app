@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { calculateCategoryCounts } from '../helpers/calculateCategoryCounts';
-import { useAppSelector } from '../hooks/hooks';
+import { calculateCategoryCounts } from '../../helpers/calculateCategoryCounts';
+import { useAppSelector } from '../../hooks/hooks';
 import {
   selectActiveNotes,
   selectAllNotes,
   selectArchivedNotes,
-} from '../redux/features/notes/selectors';
-import { NoteButton } from './Buttons/NoteButton/NoteButton';
-import { HeaderToggle } from './HeaderToggle/HeaderToggle';
-import { NoteModal } from './Modal/Modal';
-import { RowComponent } from './Row/Row';
+} from '../../redux/features/notes/selectors';
+import { NoteButton } from '../Buttons/NoteButton/NoteButton';
+import { HeaderToggle } from '../HeaderToggle/HeaderToggle';
+import { NoteModal } from '../Modal/Modal';
+import { RowComponent } from '../Row/Row';
 import { HeaderItem, List, Table, TableHeader } from './TableComponent.styled';
-import { Note } from '../types/types';
+import { Note } from '../../types/types';
 
 interface TableProps {
   headers: string[];
@@ -55,22 +55,6 @@ export const TableComponent: React.FC<TableProps> = ({
     setCurrentNote(null);
     setModalHidden(true);
   };
-
-  useEffect(() => {
-    const handleEscapePress = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    };
-
-    if (!isModalHidden) {
-      window.addEventListener('keydown', handleEscapePress);
-    }
-
-    return () => {
-      window.removeEventListener('keydown', handleEscapePress);
-    };
-  }, [isModalHidden]);
 
   return (
     <>
@@ -118,7 +102,7 @@ export const TableComponent: React.FC<TableProps> = ({
       <NoteModal
         isHidden={isModalHidden}
         close={closeModal}
-        noteToEdit={(currentNote as Note) && (currentNote as Note)}
+        noteToEdit={currentNote ? currentNote : undefined}
       />
     </>
   );

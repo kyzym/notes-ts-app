@@ -7,3 +7,9 @@ export interface Note {
   category: string;
   isArchived: boolean;
 }
+
+export interface CategoryCounts {
+  category: string;
+  active: number;
+  archived: number;
+}

@@ -1,27 +1,14 @@
 import { Provider } from 'react-redux';
 import './App.css';
-import { TableComponent } from './components/TableComponent';
-
+import { TableComponent } from './components/TableComponent/TableComponent';
 import store from './redux/store';
-
-function AppContent() {
-  return (
-    <>
-      <TableComponent
-        headers={['Name', 'Created', 'Category', 'Content', 'Dates', '']}
-      />
-      <TableComponent
-        headers={['Name Category', 'Active', 'Archived']}
-        isSummary
-      />
-    </>
-  );
-}
+import { MAIN_HEADERS, SUMMARY_HEADERS } from './utils/constants';
 
 function App() {
   return (
     <Provider store={store}>
-      <AppContent />
+      <TableComponent headers={MAIN_HEADERS} />
+      <TableComponent headers={SUMMARY_HEADERS} isSummary />
     </Provider>
   );
 }
