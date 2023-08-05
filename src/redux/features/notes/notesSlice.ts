@@ -7,7 +7,7 @@ const notesSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action: PayloadAction<Note>) => {
-      state.push(action.payload);
+      state.unshift(action.payload);
     },
     editNote: (state, action: PayloadAction<Note>) => {
       const index = state.findIndex((note) => note.id === action.payload.id);

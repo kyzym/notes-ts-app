@@ -4,6 +4,6 @@ export interface Note {
   createdAt: string;
   content: string;
   dates: string[];
-  category: 'Task' | 'Random Thought' | 'Idea';
+  category: string;
   isArchived: boolean;
 }

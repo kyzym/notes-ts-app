@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { calculateCategoryCounts } from '../helpers/calculateCategoryCounts';
 import { useAppSelector } from '../hooks/hooks';
 import {
@@ -6,14 +6,11 @@ import {
   selectAllNotes,
   selectArchivedNotes,
 } from '../redux/features/notes/selectors';
-import { RowComponent } from './Row/Row';
-import { HeaderItem, Table, TableHeader } from './TableComponent.styled';
-import { HeaderToggle } from './HeaderToggle/HeaderToggle';
-import { useState, useEffect } from 'react';
 import { NoteButton } from './Buttons/NoteButton/NoteButton';
+import { HeaderToggle } from './HeaderToggle/HeaderToggle';
 import { NoteModal } from './Modal/Modal';
-
-const List = styled.ul``;
+import { RowComponent } from './Row/Row';
+import { HeaderItem, List, Table, TableHeader } from './TableComponent.styled';
 
 interface TableProps {
   headers: string[];

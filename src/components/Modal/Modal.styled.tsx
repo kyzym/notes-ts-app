@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-export const Backdrop = styled.div<{ isHidden: boolean }>`
-  display: ${({ isHidden }) => (isHidden ? 'none' : 'flex')};
+export const Backdrop = styled.div<{ $isHidden: boolean }>`
+  display: ${({ $isHidden }) => ($isHidden ? 'none' : 'flex')};
   justify-content: center;
   align-items: center;
   position: fixed;

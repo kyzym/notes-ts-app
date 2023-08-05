@@ -4,7 +4,7 @@ import { StyledButton } from './NoteButton.styled';
 interface NoteButtonProps {
   type: 'button' | 'submit';
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const NoteButton: React.FC<NoteButtonProps> = ({

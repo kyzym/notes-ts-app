@@ -43,3 +43,5 @@ export const HeaderItem = styled.li`
     gap: 0.8rem;
   }
 `;
+
+export const List = styled.ul``;
