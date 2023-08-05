@@ -6,7 +6,7 @@ export const ArchiveToggle = styled.button<{ $showArchived: boolean }>`
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  /* color: ; */
+
   color: ${({ $showArchived }) => ($showArchived ? 'rgb(0, 100, 139)' : '')};
 
   :hover {

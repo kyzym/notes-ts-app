@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const Row = styled.li`
+export const Row = styled.li<{ $isSummary?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: ${({ $isSummary }) =>
+    $isSummary ? 'repeat(3, 1fr)' : 'repeat(6, 1fr)'};
 
   align-items: center;
   background-color: aliceblue;
@@ -11,10 +12,13 @@ export const Row = styled.li`
   padding: 1rem;
   column-gap: 1rem;
   max-height: fit-content;
+
+  font-size: 1.4rem;
+  font-weight: 400;
 `;
 
-export const Cell = styled.span`
-  flex: 1;
+export const Cell = styled.div`
+  display: flex;
 `;
 
 export const NameWrapper = styled.div`
@@ -26,8 +30,8 @@ export const NameWrapper = styled.div`
 export const NameIconWrapper = styled.div`
   background-color: gray;
   border-radius: 50%;
-  min-width: 4rem;
-  min-height: 4rem;
+  min-width: 3rem;
+  min-height: 3rem;
 
   padding: 0.7rem;
 

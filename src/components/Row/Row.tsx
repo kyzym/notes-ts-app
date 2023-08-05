@@ -46,10 +46,10 @@ export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
   if (isSummary) {
     const { category, active, archived } = data as CategoryCounts;
     return (
-      <Row>
+      <Row $isSummary={isSummary}>
         <NameWrapper>
           <NameIconWrapper>
-            {getIconForCategory(category, 20, 'white')}
+            {getIconForCategory(category, 25, 'white')}
           </NameIconWrapper>
           <Cell>{<Cell>{category}</Cell>}</Cell>
         </NameWrapper>
@@ -63,15 +63,15 @@ export const RowComponent: React.FC<RowProps> = ({ data, isSummary }) => {
       <Row>
         <NameWrapper>
           <NameIconWrapper>
-            {getIconForCategory(note.category, 20, 'white')}
+            {getIconForCategory(note.category, 25, 'white')}
           </NameIconWrapper>
           <Cell>{note.name}</Cell>
         </NameWrapper>
-        <Cell>{note.createdAt}</Cell>
-        <Cell>{note.category}</Cell>
+        <Cell className="created">{note.createdAt}</Cell>
+        <Cell className="category">{note.category}</Cell>
         <Cell>{note.content}</Cell>
-        <Cell>{note.dates.join(', ')}</Cell>
-        <Cell>
+        <Cell className="dates">{note.dates.join(', ')}</Cell>
+        <Cell className="actions-wrapper">
           <NoteActionsWrapper>
             <ActionButton icon={<FaPencilAlt size={30} />} onClick={() => {}} />
             <ActionButton

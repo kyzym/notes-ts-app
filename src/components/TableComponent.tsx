@@ -65,7 +65,7 @@ export const TableComponent: React.FC<TableProps> = ({
             <RowComponent
               data={{ category, ...counts }}
               key={category}
-              isSummary={true}
+              isSummary={isSummary}
             />
           ))}
       </List>

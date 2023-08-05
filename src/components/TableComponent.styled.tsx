@@ -21,10 +21,11 @@ export const TableHeader = styled.ul<{ $isSummary?: boolean }>`
   color: white;
 
   :first-child {
-    margin-left: 4.5rem;
+    margin-left: 5rem;
   }
   :last-child {
-    margin-left: auto;
+    ${({ $isSummary }) =>
+      $isSummary ? 'margin-left:0' : ' margin-left: auto'};
   }
 `;
 
