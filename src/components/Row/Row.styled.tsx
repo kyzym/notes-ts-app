@@ -45,3 +45,10 @@ export const NoteActionsWrapper = styled.div`
   display: flex;
   gap: 0.8rem;
 `;
+
+export const ArchiveButtonWrapper = styled.div<{ $archived: boolean }>`
+  color: ${({ $archived }) => ($archived ? 'rgb(0, 100, 139)' : '')};
+  :hover {
+    color: ${({ $archived }) => ($archived ? 'black' : '')};
+  }
+`;

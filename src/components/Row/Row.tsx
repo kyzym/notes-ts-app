@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Note } from '../../types/types';
 import {
+  ArchiveButtonWrapper,
   Cell,
   NameIconWrapper,
   NameWrapper,
@@ -70,6 +71,7 @@ export const RowComponent: React.FC<RowProps> = ({
     );
   } else {
     const note = data as Note;
+
     return (
       <Row>
         <NameWrapper>
@@ -88,10 +90,13 @@ export const RowComponent: React.FC<RowProps> = ({
               icon={<FaPencilAlt size={30} />}
               onClick={handleEditClick}
             />
-            <ActionButton
-              icon={<FaArchive size={30} />}
-              onClick={handleArchiveClick}
-            />
+            <ArchiveButtonWrapper $archived={note.isArchived}>
+              <ActionButton
+                icon={<FaArchive size={30} />}
+                onClick={handleArchiveClick}
+              />
+            </ArchiveButtonWrapper>
+
             <ActionButton
               icon={<FaTrash size={30} />}
               onClick={handleRemoveClick}
