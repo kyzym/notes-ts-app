@@ -22,9 +22,20 @@ export const NoteModal: React.FC<ModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const [name, setName] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+
+  const resetForm = () => {
+    setName('');
+    setContent('');
+    setCategory('');
+  };
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       close();
+      resetForm();
     }
   };
 
@@ -39,10 +50,6 @@ export const NoteModal: React.FC<ModalProps> = ({
       document.body.style.overflow = 'auto';
     };
   }, [isHidden]);
-
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
 
   useEffect(() => {
     if (noteToEdit) {
@@ -78,6 +85,8 @@ export const NoteModal: React.FC<ModalProps> = ({
       };
 
       dispatch(editNote(editingNoteData));
+      resetForm();
+      close();
     } else {
       const noteData: Note = {
         name,
@@ -90,17 +99,20 @@ export const NoteModal: React.FC<ModalProps> = ({
       };
 
       dispatch(addNote(noteData));
+      resetForm();
     }
-
-    setName('');
-    setContent('');
-    setCategory('');
   };
 
   return (
     <Backdrop $isHidden={isHidden} onClick={handleBackdropClick}>
       <Modal>
-        <CloseModalButton onClick={close}>✕</CloseModalButton>
+        <CloseModalButton
+          onClick={() => {
+            resetForm();
+            close();
+          }}>
+          ✕
+        </CloseModalButton>
         <NoteForm className="note-form" onSubmit={createNote}>
           <input
             type="text"
