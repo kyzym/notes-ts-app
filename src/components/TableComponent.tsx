@@ -10,6 +10,7 @@ import { RowComponent } from './Row/Row';
 import { HeaderItem, Table, TableHeader } from './TableComponent.styled';
 import { HeaderToggle } from './HeaderToggle/HeaderToggle';
 import { useState, useEffect } from 'react';
+import { NoteButton } from './Buttons/NoteButton/NoteButton';
 
 const List = styled.ul``;
 
@@ -60,6 +61,7 @@ export const TableComponent: React.FC<TableProps> = ({
           (showArchived ? archivedNotes : activeNotes).map((note) => (
             <RowComponent data={note} key={note.id} isSummary={false} />
           ))}
+
         {isSummary &&
           Object.entries(categoriesData).map(([category, counts]) => (
             <RowComponent
@@ -69,6 +71,11 @@ export const TableComponent: React.FC<TableProps> = ({
             />
           ))}
       </List>
+      {!isSummary && !showArchived && (
+        <NoteButton type="button" onClick={() => {}}>
+          Create Note
+        </NoteButton>
+      )}
     </Table>
   );
 };

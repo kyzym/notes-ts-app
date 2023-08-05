@@ -6,7 +6,7 @@ export const Button = styled.button`
   max-height: 3rem;
   transition: color 0.3s ease;
 
-  :hover {
+  &:hover {
     color: rgb(0, 100, 139);
   }
 `;

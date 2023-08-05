@@ -21,7 +21,11 @@ export const HeaderToggle: React.FC<HeaderToggleProps> = ({
   return (
     <HeaderItem>
       <ToggleWrapper>
-        <ArchiveToggle onClick={toggleArchive} $showArchived={showArchived}>
+        <ArchiveToggle
+          disabled={!isArchived}
+          onClick={toggleArchive}
+          $showArchived={showArchived}
+          $isArchived={isArchived}>
           {isArchived && (
             <ArchiveToggleText>
               {showArchived ? 'Show active' : 'Show archived'}

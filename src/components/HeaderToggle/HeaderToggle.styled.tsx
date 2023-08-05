@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const ArchiveToggle = styled.button<{ $showArchived: boolean }>`
+export const ArchiveToggle = styled.button<{
+  $showArchived: boolean;
+  $isArchived: boolean;
+}>`
   margin: 1rem 0;
   margin-left: 0 !important;
   display: flex;
@@ -9,9 +12,18 @@ export const ArchiveToggle = styled.button<{ $showArchived: boolean }>`
 
   color: ${({ $showArchived }) => ($showArchived ? 'rgb(0, 100, 139)' : '')};
 
-  :hover {
+  &:hover {
     color: ${({ $showArchived }) =>
       $showArchived ? 'white' : 'rgb(0, 100, 139)'};
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:disabled:hover {
+    background-color: inherit;
+    color: inherit;
   }
 `;
 
