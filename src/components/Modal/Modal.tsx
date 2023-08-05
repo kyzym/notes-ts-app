@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Backdrop, Modal, CloseModalButton, NoteForm } from './Modal.styled';
-import { NoteButton } from '../Buttons/NoteButton/NoteButton';
 import { useNoteForm } from '../../hooks/useNoteForm';
 import { Note } from '../../types/types';
+import { NoteButton } from '../Buttons/NoteButton/NoteButton';
+import { Backdrop, CloseModalButton, Modal, NoteForm } from './Modal.styled';
 
 interface ModalProps {
   isHidden: boolean;
@@ -61,7 +61,7 @@ export const NoteModal: React.FC<ModalProps> = ({
           <input
             type="text"
             name="name"
-            placeholder="Name of your note. Max 80 symbols"
+            placeholder="Enter the name of your note. Max 80 characters"
             maxLength={80}
             value={name}
             onChange={handleNameChange}
@@ -70,7 +70,7 @@ export const NoteModal: React.FC<ModalProps> = ({
           <textarea
             name="content"
             rows={3}
-            placeholder="Write you note. Max 120 symbols. Date format is: MM/DD/YYYY"
+            placeholder="Write your note. Min 5, Max 120 characters. Date format: MM/DD/YYYY"
             maxLength={120}
             value={content}
             onChange={handleContentChange}></textarea>

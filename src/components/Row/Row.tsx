@@ -1,6 +1,13 @@
 import React from 'react';
-
+import { FaArchive, FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { getIconForCategory } from '../../helpers/getIconForCategory';
+import { useAppDispatch } from '../../hooks/hooks';
+import {
+  removeNote,
+  toggleArchiveNote,
+} from '../../redux/features/notes/notesSlice';
 import { CategoryCounts, Note } from '../../types/types';
+import { ActionButton } from '../Buttons/ActionButtons';
 import {
   ArchiveButtonWrapper,
   Cell,
@@ -9,14 +16,6 @@ import {
   NoteActionsWrapper,
   Row,
 } from './Row.styled';
-import { getIconForCategory } from '../../helpers/getIconForCategory';
-import { ActionButton } from '../Buttons/ActionButtons';
-import { FaArchive, FaPencilAlt, FaTrash } from 'react-icons/fa';
-import { useAppDispatch } from '../../hooks/hooks';
-import {
-  removeNote,
-  toggleArchiveNote,
-} from '../../redux/features/notes/notesSlice';
 
 interface RowProps {
   data: Note | CategoryCounts;
