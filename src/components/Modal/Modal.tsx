@@ -26,10 +26,32 @@ export const NoteModal: React.FC<ModalProps> = ({
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
 
+  const [errors, setErrors] = useState({
+    name: null as string | null,
+    content: null as string | null,
+    category: null as string | null,
+  });
+
+  const validateForm = (name: string, content: string, category: string) => {
+    const errors = {
+      name: name.trim().length < 1 ? 'Please fill this field' : null,
+      content:
+        content.trim().length < 5 ? 'Please write 5 symbols or more' : null,
+      category: category === '' ? 'Please choose a category' : null,
+    };
+
+    return errors;
+  };
+
   const resetForm = () => {
     setName('');
     setContent('');
     setCategory('');
+    setErrors({
+      name: null,
+      content: null,
+      category: null,
+    });
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -59,17 +81,38 @@ export const NoteModal: React.FC<ModalProps> = ({
     }
   }, [noteToEdit]);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      name: e.target.value.length < 1 ? 'Please fill this field' : null,
+    }));
+  };
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      content:
+        e.target.value.length < 5 ? 'Please write 5 symbols or more' : null,
+    }));
+  };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setCategory(e.target.value);
 
   const createNote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const validationErrors = validateForm(name, content, category);
+    setErrors(validationErrors);
+    if (
+      validationErrors.name ||
+      validationErrors.content ||
+      validationErrors.category
+    ) {
+      return;
+    }
 
     const dates = extractDates(content);
     const contentData = extractContent(content).trim();
@@ -103,6 +146,8 @@ export const NoteModal: React.FC<ModalProps> = ({
     }
   };
 
+  const buttonText = noteToEdit ? 'Change Note' : 'Add Note';
+
   return (
     <Backdrop $isHidden={isHidden} onClick={handleBackdropClick}>
       <Modal>
@@ -118,24 +163,21 @@ export const NoteModal: React.FC<ModalProps> = ({
             type="text"
             name="name"
             placeholder="Name of your note.  Max 80 symbols"
-            required
             maxLength={80}
             value={name}
             onChange={handleNameChange}
           />
-          <span className="error-message"></span>
+          <span className="error-message">{errors.name}</span>
           <textarea
             name="content"
             rows={3}
             placeholder="Write you note. Max 120 symbols. Date format is: MM/DD/YYYY "
-            required
             maxLength={120}
             value={content}
             onChange={handleContentChange}></textarea>
-          <span className="error-message"></span>
+          <span className="error-message">{errors.content}</span>
           <select
             name="category"
-            required
             value={category}
             onChange={handleCategoryChange}>
             <option value="">Choose a category</option>
@@ -143,7 +185,8 @@ export const NoteModal: React.FC<ModalProps> = ({
             <option value="Random Thought">Random Thought</option>
             <option value="Idea">Idea</option>
           </select>
-          <NoteButton type="submit">Add note</NoteButton>
+          <span className="error-message">{errors.category}</span>
+          <NoteButton type="submit">{buttonText}</NoteButton>
         </NoteForm>
       </Modal>
     </Backdrop>
