@@ -8,7 +8,7 @@ export const Table = styled.div`
   font-weight: bold;
 `;
 
-export const TableHeader = styled.ul<{ $isSummary?: boolean }>`
+export const TableHeader = styled.ul<{ $isSummary: boolean }>`
   display: grid;
   grid-template-columns: ${({ $isSummary }) =>
     $isSummary ? 'repeat(3, 1fr)' : 'repeat(6, 1fr)'};

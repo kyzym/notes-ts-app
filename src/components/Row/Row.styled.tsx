@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Row = styled.li<{ $isSummary?: boolean }>`
+export const Row = styled.li<{ $isSummary: boolean }>`
   display: grid;
   grid-template-columns: ${({ $isSummary }) =>
     $isSummary ? 'repeat(3, 1fr)' : 'repeat(6, 1fr)'};

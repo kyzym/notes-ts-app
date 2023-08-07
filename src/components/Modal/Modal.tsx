@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNoteForm } from '../../hooks/useNoteForm';
 import { Note } from '../../types/types';
 import { NoteButton } from '../Buttons/NoteButton/NoteButton';
 import { Backdrop, CloseModalButton, Modal, NoteForm } from './Modal.styled';
+import { useLockBodyScroll } from '../../helpers/disableScroll';
 
 interface ModalProps {
   isHidden: boolean;
@@ -10,11 +11,7 @@ interface ModalProps {
   noteToEdit?: Note;
 }
 
-export const NoteModal: React.FC<ModalProps> = ({
-  isHidden,
-  close,
-  noteToEdit,
-}) => {
+export const NoteModal = ({ isHidden, close, noteToEdit }: ModalProps) => {
   const {
     name,
     content,
@@ -35,17 +32,7 @@ export const NoteModal: React.FC<ModalProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (!isHidden) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isHidden]);
+  useLockBodyScroll(isHidden);
 
   return (
     <Backdrop $isHidden={isHidden} onClick={handleBackdropClick}>

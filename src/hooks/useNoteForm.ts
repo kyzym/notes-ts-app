@@ -12,24 +12,22 @@ import { validateForm } from '../helpers/validateForm';
 export const useNoteForm = (noteToEdit?: Note, close?: () => void) => {
   const dispatch = useAppDispatch();
 
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
-  const [errors, setErrors] = useState({
+  const errorsInitialState = {
     name: null as string | null,
     content: null as string | null,
     category: null as string | null,
-  });
+  };
+
+  const [name, setName] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+  const [errors, setErrors] = useState(errorsInitialState);
 
   const resetForm = () => {
     setName('');
     setContent('');
     setCategory('');
-    setErrors({
-      name: null,
-      content: null,
-      category: null,
-    });
+    setErrors(errorsInitialState);
   };
 
   useEffect(() => {

@@ -15,13 +15,10 @@ import { Note } from '../../types/types';
 
 interface TableProps {
   headers: string[];
-  isSummary?: boolean;
+  isSummary: boolean;
 }
 
-export const TableComponent: React.FC<TableProps> = ({
-  headers,
-  isSummary,
-}) => {
+export const TableComponent = ({ headers, isSummary }: TableProps) => {
   const [showArchived, setShowArchived] = useState(false);
   const [isModalHidden, setModalHidden] = useState(true);
   const [currentNote, setCurrentNote] = useState<Note | null>(null);

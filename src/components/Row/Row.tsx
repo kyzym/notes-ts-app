@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaArchive, FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { getIconForCategory } from '../../helpers/getIconForCategory';
 import { useAppDispatch } from '../../hooks/hooks';
@@ -23,23 +22,15 @@ interface RowProps {
   onEditClick?: () => void;
 }
 
-export const RowComponent: React.FC<RowProps> = ({
-  data,
-  isSummary,
-  onEditClick,
-}) => {
+export const RowComponent = ({ data, isSummary, onEditClick }: RowProps) => {
   const dispatch = useAppDispatch();
 
   const handleRemoveClick = () => {
-    if ('id' in data) {
-      dispatch(removeNote(data.id));
-    }
+    dispatch(removeNote((data as Note).id));
   };
 
   const handleArchiveClick = () => {
-    if ('id' in data) {
-      dispatch(toggleArchiveNote(data.id));
-    }
+    dispatch(toggleArchiveNote((data as Note).id));
   };
 
   const handleEditClick = () => {
@@ -66,7 +57,7 @@ export const RowComponent: React.FC<RowProps> = ({
     const note = data as Note;
 
     return (
-      <Row>
+      <Row $isSummary={false}>
         <NameWrapper>
           <NameIconWrapper>
             {getIconForCategory(note.category, 25, 'white')}

@@ -7,11 +7,7 @@ interface NoteButtonProps {
   onClick?: () => void;
 }
 
-export const NoteButton: React.FC<NoteButtonProps> = ({
-  type,
-  children,
-  onClick,
-}) => {
+export const NoteButton = ({ type, children, onClick }: NoteButtonProps) => {
   return (
     <StyledButton type={type} onClick={onClick}>
       {children}

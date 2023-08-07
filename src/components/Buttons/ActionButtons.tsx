@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from './ActionButton.styled';
 
 interface ActionButtonProps {
@@ -6,7 +5,6 @@ interface ActionButtonProps {
   onClick: () => void;
 }
 
-export const ActionButton: React.FC<ActionButtonProps> = ({
-  icon,
-  onClick,
-}) => <Button onClick={onClick}>{icon}</Button>;
+export const ActionButton = ({ icon, onClick }: ActionButtonProps) => (
+  <Button onClick={onClick}>{icon}</Button>
+);

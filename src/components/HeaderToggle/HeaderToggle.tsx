@@ -13,11 +13,11 @@ interface HeaderToggleProps {
   toggleArchive: () => void;
 }
 
-export const HeaderToggle: React.FC<HeaderToggleProps> = ({
+export const HeaderToggle = ({
   showArchived,
   isArchived,
   toggleArchive,
-}) => {
+}: HeaderToggleProps) => {
   return (
     <HeaderItem>
       <ToggleWrapper>

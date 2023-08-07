@@ -10,7 +10,7 @@ const router = createHashRouter([
     path: '/notes',
     element: (
       <>
-        <TableComponent headers={MAIN_HEADERS} />
+        <TableComponent headers={MAIN_HEADERS} isSummary={false} />
         <TableComponent headers={SUMMARY_HEADERS} isSummary />
       </>
     ),
